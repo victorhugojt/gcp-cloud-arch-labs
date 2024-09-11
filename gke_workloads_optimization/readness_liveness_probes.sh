@@ -1,3 +1,6 @@
+
+Pods can also be configured to include a startupProbe which indicates whether the application within the container is started. If a startupProbe is present, no other probes will perform until it returns a Success state. This is recommended for applications that may have variable start-up times in order to avoid interruptions from a liveness probe.
+
 cat << EOF > liveness-demo.yaml
 apiVersion: v1
 kind: Pod
@@ -23,6 +26,8 @@ spec:
 EOF
 
 kubectl apply -f liveness-demo.yaml
+
+kubectl describe pod liveness-demo-pod
 
 cat << EOF > readiness-demo.yaml
 apiVersion: v1
@@ -68,3 +73,5 @@ kubectl get service readiness-demo-svc
 Enter the IP address in a browser window and you'll notice that you'll get an error message signifying that the site cannot be reached.
 
 kubectl describe pod readiness-demo-pod
+
+kubectl describe pod readiness-demo-pod | grep ^Conditions -A 5

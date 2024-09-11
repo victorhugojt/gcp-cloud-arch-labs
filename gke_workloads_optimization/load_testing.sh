@@ -13,5 +13,5 @@ sed 's/${GOOGLE_CLOUD_PROJECT}/'$GOOGLE_CLOUD_PROJECT'/g' locust_deploy_v2.yaml 
 kubectl get service locust-main
 
 
-[EXTERNAL_IP_ADDRESS]:8089
+35.223.49.83:8089
 
