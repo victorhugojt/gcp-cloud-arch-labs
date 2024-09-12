@@ -53,3 +53,29 @@ gcloud container node-pools delete ${DEFAULT_POOL_NAME} \
     --cluster ${CLUSTER_NAME}
 
 # Task 3. Apply a frontend update
+
+
+kubectl get pods -A
+
+kubectl describe deployment OnlineBoutique | grep ^Replicas
+
+kubectl create poddisruptionbudget onlineboutique-frontend-pdb --selector run=OnlineBoutique --min-available 1
+
+cd microservices-demo
+cat ./release/kubernetes-manifests.yam
+
+vi ./release/kubernetes-manifests.yam
+# gcr.io/qwiklabs-resources/onlineboutique-frontend:v2.1
+# ImagePullPolicy to Always
+kubectl apply -f ./release/kubernetes-manifests.yaml --namespace dev
+
+
+kubectl get deployment
+
+kubectl autoscale deployment OnlineBoutique --cpu-percent=50 --min=1 --max=6
+
+kubectl get hpa
+
+gcloud beta container clusters update ${CLUSTER_NAME} --enable-autoscaling --min-nodes 1 --max-nodes 6
+
+kubectl autoscale deployment OnlineBoutique --cpu-percent=50 --min=1 --max=5
